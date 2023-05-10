@@ -1,5 +1,6 @@
 "use client";
 import { FieldInputController } from "@/components/FieldInput/FieldInputController";
+import { Template } from "@/components/Template";
 import { Button, Flex } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSession, signIn } from "next-auth/react";
@@ -42,24 +43,31 @@ export default function Page() {
   });
 
   return (
-    <Flex as="form" onSubmit={handleSubmit(onSubmit)} h={"100vh"}>
-      <FieldInputController
-        placeholder="E-mail"
-        name="login"
-        type="email"
-        control={control}
-      />
+    <Template>
+      <Flex
+        as="form"
+        flexDir={"column"}
+        onSubmit={handleSubmit(onSubmit)}
+        h="full"
+      >
+        <FieldInputController
+          placeholder="E-mail"
+          name="login"
+          type="email"
+          control={control}
+        />
 
-      <FieldInputController
-        placeholder="Password"
-        control={control}
-        name="password"
-        type="password"
-      />
+        <FieldInputController
+          placeholder="Password"
+          control={control}
+          name="password"
+          type="password"
+        />
 
-      <Button type="submit" isLoading={isSubmitting}>
-        Entrar
-      </Button>
-    </Flex>
+        <Button type="submit" isLoading={isSubmitting}>
+          Entrar
+        </Button>
+      </Flex>
+    </Template>
   );
 }
