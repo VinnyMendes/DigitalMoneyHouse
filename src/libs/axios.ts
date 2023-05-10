@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: process.env.NEXTAUTH_URL || "https://digitalmoney.ctd.academy",
+  baseURL: process.env.NEXT_API_URL || "https://digitalmoney.ctd.academy",
 });

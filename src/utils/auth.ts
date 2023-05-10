@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const { data } = await api.post<{ token: string }>("/api/users", {
+          const { data } = await api.post<{ token: string }>("/api/login", {
             email: credentials?.email,
             password: credentials?.password,
           });

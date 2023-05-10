@@ -1,11 +1,11 @@
-import { Footer } from "@/components/Footer";
-import { Header } from "@/components/Header";
+"use client";
+import { Template } from "@/components/Template";
+import { Flex } from "@chakra-ui/react";
 
 export default function Home() {
   return (
-    <>
-      <Header />
-      <Footer />
-    </>
+    <Template>
+      <Flex h="full"></Flex>
+    </Template>
   );
 }

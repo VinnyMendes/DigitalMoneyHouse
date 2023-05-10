@@ -3,7 +3,7 @@ import { FieldInputController } from "@/components/FieldInput/FieldInputControll
 import { Template } from "@/components/Template";
 import { Button, Flex } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getSession, signIn } from "next-auth/react";
+import { getSession, signIn, signOut } from "next-auth/react";
 import { useForm } from "react-hook-form";
 
 interface FormLogin {
@@ -66,6 +66,10 @@ export default function Page() {
 
         <Button type="submit" isLoading={isSubmitting}>
           Entrar
+        </Button>
+
+        <Button isLoading={isSubmitting} onClick={() => signOut()}>
+          Sair
         </Button>
       </Flex>
     </Template>
