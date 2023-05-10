@@ -74,7 +74,6 @@ export const authOptions: NextAuthOptions = {
           return user;
         } catch (err) {
           console.log(err);
-
           return null;
         }
       },

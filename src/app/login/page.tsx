@@ -2,13 +2,19 @@
 import { DefaultButton } from "@/components/Button";
 import { FieldInputController } from "@/components/FieldInput/FieldInputController";
 import { Template } from "@/components/Template";
-import { Box, Flex, VStack } from "@chakra-ui/react";
+import { Text, Flex, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSession, signIn, signOut } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { loginSchema, zodInfer } from "./schema";
+import { useCallback, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Page() {
+  const [step, setStep] = useState(0);
+  const [loginErrorMessage, setLoginErrorMessage] = useState("");
+  const { push } = useRouter();
+
   getSession().then((data) => console.log(data?.user));
 
   const onSubmit = async (data: zodInfer) => {
@@ -19,17 +25,19 @@ export default function Page() {
     });
 
     if (response?.error) {
-      console.log("errouuuu");
+      setLoginErrorMessage("Senha incorreta, tente novamente");
+      return;
     }
 
-    //  if (response?.ok) {
-    //    return push("/");
-    //  }
+    if (response?.ok) {
+      return push("/");
+    }
   };
 
   const {
     control,
     handleSubmit,
+    trigger,
     formState: { errors, isSubmitting },
   } = useForm<zodInfer>({
     resolver: zodResolver(loginSchema),
@@ -39,7 +47,13 @@ export default function Page() {
     },
   });
 
-  console.log(errors);
+  const checkIfError = useCallback(async () => {
+    const result = await trigger("login", { shouldFocus: true });
+
+    if (result) {
+      setStep(1);
+    }
+  }, [trigger]);
 
   return (
     <Template>
@@ -47,42 +61,45 @@ export default function Page() {
         as="form"
         flexDir={"column"}
         onSubmit={handleSubmit(onSubmit)}
-        h="full"
+        h="100%"
         w="100%"
         background="#272727"
         alignItems="center"
         justifyContent="center"
       >
-        <VStack spacing={"20px"} maxW={"360px"} w="100%">
-          <FieldInputController
-            placeholder="E-mail"
-            name="login"
-            type="email"
-            control={control}
-          />
+        {step === 0 && (
+          <VStack spacing={"20px"} maxW={"360px"} w="100%">
+            <FieldInputController
+              placeholder="E-mail"
+              name="login"
+              type="email"
+              control={control}
+              error={errors.login}
+            />
 
-          {/* <FieldInputController
-            placeholder="Password"
-            control={control}
-            name="password"
-            type="password"
-          /> */}
+            <DefaultButton label="Continuar" onClick={checkIfError} />
 
-          <DefaultButton
-            type="submit"
-            isLoading={isSubmitting}
-            label="Continuar"
-          />
+            <DefaultButton variant="secondary" label="Criar conta" />
 
-          <DefaultButton
-            variant="secondary"
-            isLoading={isSubmitting}
-            onClick={() => signOut()}
-            label="Criar conta"
-          >
-            Sair
-          </DefaultButton>
-        </VStack>
+            {errors.login && <Text color={"red"}>{errors.login.message}</Text>}
+          </VStack>
+        )}
+
+        {step === 1 && (
+          <VStack spacing={"20px"} maxW={"360px"} w="100%">
+            <FieldInputController
+              placeholder="Password"
+              control={control}
+              name="password"
+              type="password"
+              error={errors.password}
+            />
+
+            <DefaultButton label="Continuar" type="submit" />
+
+            {loginErrorMessage && <Text color="red">{loginErrorMessage}</Text>}
+          </VStack>
+        )}
       </Flex>
     </Template>
   );
