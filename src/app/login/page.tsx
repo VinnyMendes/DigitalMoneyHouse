@@ -4,7 +4,7 @@ import { FieldInputController } from "@/components/FieldInput/FieldInputControll
 import { Template } from "@/components/Template";
 import { Text, Flex, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getSession, signIn, signOut } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { loginSchema, zodInfer } from "./schema";
 import { useCallback, useState } from "react";
@@ -95,7 +95,11 @@ export default function Page() {
               error={errors.password}
             />
 
-            <DefaultButton label="Continuar" type="submit" />
+            <DefaultButton
+              isLoading={isSubmitting}
+              label="Continuar"
+              type="submit"
+            />
 
             {loginErrorMessage && <Text color="red">{loginErrorMessage}</Text>}
           </VStack>
