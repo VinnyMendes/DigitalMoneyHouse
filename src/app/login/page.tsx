@@ -1,20 +1,17 @@
 "use client";
+import { DefaultButton } from "@/components/Button";
 import { FieldInputController } from "@/components/FieldInput/FieldInputController";
 import { Template } from "@/components/Template";
-import { Button, Flex } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { getSession, signIn, signOut } from "next-auth/react";
 import { useForm } from "react-hook-form";
-
-interface FormLogin {
-  login: string;
-  password: string;
-}
+import { loginSchema, zodInfer } from "./schema";
 
 export default function Page() {
   getSession().then((data) => console.log(data?.user));
 
-  const onSubmit = async (data: FormLogin) => {
+  const onSubmit = async (data: zodInfer) => {
     const response = await signIn("credentials", {
       email: data.login,
       password: data.password,
@@ -34,13 +31,15 @@ export default function Page() {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<FormLogin>({
-    // resolver: zodResolver(schema),
+  } = useForm<zodInfer>({
+    resolver: zodResolver(loginSchema),
     defaultValues: {
       login: "",
       password: "",
     },
   });
+
+  console.log(errors);
 
   return (
     <Template>
@@ -49,28 +48,41 @@ export default function Page() {
         flexDir={"column"}
         onSubmit={handleSubmit(onSubmit)}
         h="full"
+        w="100%"
+        background="#272727"
+        alignItems="center"
+        justifyContent="center"
       >
-        <FieldInputController
-          placeholder="E-mail"
-          name="login"
-          type="email"
-          control={control}
-        />
+        <VStack spacing={"20px"} maxW={"360px"} w="100%">
+          <FieldInputController
+            placeholder="E-mail"
+            name="login"
+            type="email"
+            control={control}
+          />
 
-        <FieldInputController
-          placeholder="Password"
-          control={control}
-          name="password"
-          type="password"
-        />
+          {/* <FieldInputController
+            placeholder="Password"
+            control={control}
+            name="password"
+            type="password"
+          /> */}
 
-        <Button type="submit" isLoading={isSubmitting}>
-          Entrar
-        </Button>
+          <DefaultButton
+            type="submit"
+            isLoading={isSubmitting}
+            label="Continuar"
+          />
 
-        <Button isLoading={isSubmitting} onClick={() => signOut()}>
-          Sair
-        </Button>
+          <DefaultButton
+            variant="secondary"
+            isLoading={isSubmitting}
+            onClick={() => signOut()}
+            label="Criar conta"
+          >
+            Sair
+          </DefaultButton>
+        </VStack>
       </Flex>
     </Template>
   );
