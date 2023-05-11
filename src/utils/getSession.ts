@@ -1,8 +1,8 @@
-"use server";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./auth";
+"use client";
+import { getSession } from "next-auth/react";
 
-export const getSession = async () => {
-  const session = await getServerSession(authOptions);
-  return session;
+export const getSessionClient = async () => {
+  const session = await getSession();
+  const user = session?.user;
+  return user;
 };

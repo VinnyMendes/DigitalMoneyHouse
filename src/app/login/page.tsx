@@ -9,13 +9,12 @@ import { useForm } from "react-hook-form";
 import { loginSchema, zodInfer } from "./schema";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
+import { getSessionClient } from "@/utils/getSession";
 
 export default function Page() {
   const [step, setStep] = useState(0);
   const [loginErrorMessage, setLoginErrorMessage] = useState("");
   const { push } = useRouter();
-
-  getSession().then((data) => console.log(data?.user));
 
   const onSubmit = async (data: zodInfer) => {
     const response = await signIn("credentials", {
