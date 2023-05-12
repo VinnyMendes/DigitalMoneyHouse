@@ -4,12 +4,11 @@ import { FieldInputController } from "@/components/FieldInput/FieldInputControll
 import { Template } from "@/components/Template";
 import { Text, Flex, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { getSession, signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import { useForm } from "react-hook-form";
 import { loginSchema, zodInfer } from "./schema";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
-import { getSessionClient } from "@/utils/getSession";
 
 export default function Page() {
   const [step, setStep] = useState(0);
@@ -65,6 +64,7 @@ export default function Page() {
         background="#272727"
         alignItems="center"
         justifyContent="center"
+        p={{ base: "45px", sm: "unset" }}
       >
         {step === 0 && (
           <VStack spacing={"20px"} maxW={"360px"} w="100%">

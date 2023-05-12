@@ -1,4 +1,3 @@
-"use client";
 import { Flex, FlexProps } from "@chakra-ui/react";
 import Image from "next/image";
 import { FC, useMemo } from "react";

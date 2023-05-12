@@ -1,4 +1,3 @@
-"use client";
 import { Flex, FlexProps, Text } from "@chakra-ui/react";
 import { FC } from "react";
 
