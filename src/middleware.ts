@@ -6,11 +6,11 @@ export async function middleware(req: NextRequest) {
 
   const url = req.url;
 
-  if (!session && url.includes("/protected")) {
+  if (!session && url.includes("/dashboard")) {
     return NextResponse.redirect(new URL("/", url));
   }
 
-  if (session && url.includes("/protected")) {
+  if (session && url.includes("/dashboard")) {
     return NextResponse.next();
   }
 }

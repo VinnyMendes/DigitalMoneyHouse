@@ -11,7 +11,7 @@ interface UserResponse {
   user_id: number;
 }
 
-interface UserData {
+export interface UserData {
   dni: number;
   email: string;
   firstname: string;
@@ -43,5 +43,8 @@ async function QueryUserById() {
 }
 
 export function useQueryUserById() {
-  return useQuery(["query-by-id"], () => QueryUserById());
+  return useQuery(["query-by-id"], () => QueryUserById(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 }

@@ -3,7 +3,7 @@ import { api } from "@/libs/axios";
 import { getSession } from "next-auth/react";
 import { useQuery } from "react-query";
 
-interface UserResponse {
+export interface UserResponse {
   alias: string;
   available_amount: number;
   cvu: string;
@@ -25,5 +25,8 @@ async function queryUserByJWT() {
 }
 
 export function useQueryUserByJWT() {
-  return useQuery(["query-by-jwt"], () => queryUserByJWT());
+  return useQuery(["query-by-jwt"], () => queryUserByJWT(), {
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 }

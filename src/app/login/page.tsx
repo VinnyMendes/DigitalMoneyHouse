@@ -28,7 +28,7 @@ export default function Page() {
     }
 
     if (response?.ok) {
-      return push("/");
+      return push("/dashboard/home");
     }
   };
 

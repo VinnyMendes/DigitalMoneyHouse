@@ -3,7 +3,7 @@ import { Badge, Flex, FlexProps, HStack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { FC, useMemo } from "react";
 
-type Variants = "primary" | "secondary";
+export type Variants = "primary" | "secondary";
 
 type HeaderProps = {
   variant?: Variants;
@@ -18,13 +18,13 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
   const stylesByVariant = useMemo((): Record<Variants, HeaderProps> => {
     return {
       primary: {
-        background: "#C1FD35",
+        background: "green.500",
         height: "64px",
         padding: "15.5px 20px",
       },
 
       secondary: {
-        background: "#201F22",
+        background: "gray.500",
         height: "64px",
         padding: "20px",
       },
@@ -32,17 +32,41 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
   }, []);
 
   return (
-    <Flex {...props} {...stylesByVariant[variant]}>
-      <Image alt="logo" src="/logo.svg" width={86} height={33} />
+    <Flex
+      justifyContent={"space-between"}
+      alignItems={"center"}
+      {...props}
+      {...stylesByVariant[variant]}
+    >
+      {variant === "primary" && (
+        <Image alt="logo" src="/logo.svg" width={86} height={33} />
+      )}
+
+      {variant === "secondary" && (
+        <Image alt="logo" src="/logo-alt.svg" width={86} height={33} />
+      )}
 
       {shouldShowUser && user && (
-        <HStack>
+        <HStack spacing={"1rem"}>
           <Badge
+            display={"flex"}
+            alignContent={"center"}
+            justifyContent={"center"}
             borderRadius="12px"
-            height="43px"
+            h="43px"
+            w="40px"
+            background="green.500"
+            alignItems={"center"}
+            fontSize={"20px"}
+            color={"#201F22"}
+            fontWeight={700}
           >{`${user.firstname[0].toUpperCase()} ${user.lastname[0].toUpperCase()}`}</Badge>
 
-          <Text>{`Olá, ${user.firstname} ${user.lastname}`}</Text>
+          <Text
+            fontWeight={700}
+            fontSize={"16px"}
+            color={"#FFFF"}
+          >{`Olá, ${user.firstname} ${user.lastname}`}</Text>
         </HStack>
       )}
     </Flex>
