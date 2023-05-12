@@ -1,6 +1,5 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import { SideBar } from "../SideBar";
-
 interface TemplateGridProps {
   children: React.ReactNode;
 }
