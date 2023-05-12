@@ -45,7 +45,7 @@ export const SideBar = ({}: SideBarProps) => {
   }, []);
 
   const pathname = usePathname();
-  console.log(pathname);
+
   return (
     <Stack
       w={{ base: "unset", sm: "221px", lg: "276px" }}

@@ -1,30 +1,114 @@
+import { useQueryUserById } from "@/query/user-get-user-data";
 import {
   Drawer,
   DrawerBody,
   DrawerCloseButton,
   DrawerContent,
-  DrawerFooter,
+  Text,
   DrawerHeader,
   DrawerOverlay,
+  Box,
+  VStack,
+  Link,
 } from "@chakra-ui/react";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
 
 interface MobileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
+interface Options {
+  label: string;
+  path: string;
+}
+
 export const MobileDrawer = (props: MobileDrawerProps) => {
   const { isOpen, onClose } = props;
+
+  const { data } = useQueryUserById();
+
+  const sideBarItems: Options[] = useMemo(() => {
+    return [
+      {
+        label: "Início",
+        path: "/dashboard/home",
+      },
+      {
+        label: "Atividade",
+        path: "/",
+      },
+      {
+        label: "Seu perfil",
+        path: "/",
+      },
+      {
+        label: "Carregar valor",
+        path: "/",
+      },
+      {
+        label: "Pagar serviços",
+        path: "/",
+      },
+      {
+        label: "Cartões",
+        path: "/",
+      },
+      {
+        label: "Encerrar sessão",
+        path: "/",
+      },
+    ];
+  }, []);
+
+  const pathname = usePathname();
+
   return (
     <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent maxW={"219px"} w="100%">
-        <DrawerCloseButton />
-        <DrawerHeader>Create your account</DrawerHeader>
+        <DrawerCloseButton color="#C1FD35" background="#3A393E" />
+        <DrawerHeader h={"129px"} pt="0px" background="#3A393E">
+          <Box mt="59px" px="34px" pb="23px">
+            <Text
+              fontWeight="700"
+              fontSize="16px"
+              lineHeight="22px"
+              color="#C1FD35"
+            >
+              Olá,
+            </Text>
+            <Text
+              fontWeight="700"
+              fontSize="16px"
+              lineHeight="22px"
+              color="#C1FD35"
+            >{`${data?.firstname} ${data?.lastname}`}</Text>
+          </Box>
+        </DrawerHeader>
 
-        <DrawerBody></DrawerBody>
-
-        <DrawerFooter></DrawerFooter>
+        <DrawerBody background="#C1FD35">
+          <VStack px="34px" pt="17px" spacing={"1rem"} align={"flex-start"}>
+            {sideBarItems.map((item, index) => {
+              return (
+                <Link
+                  fontWeight={pathname === item.path ? "800" : "600"}
+                  fontSize={"17px"}
+                  key={`sidebar-item-${index}`}
+                  color="#201F22"
+                  href={item.path}
+                  _hover={{
+                    textDecoration: "none",
+                    color: "#201f22d8",
+                  }}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </VStack>
+        </DrawerBody>
       </DrawerContent>
     </Drawer>
   );
