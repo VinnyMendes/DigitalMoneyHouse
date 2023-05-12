@@ -74,7 +74,7 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
               fontSize={"20px"}
               color={"#201F22"}
               fontWeight={700}
-            >{`${user.firstname[0].toUpperCase()} ${user.lastname[0].toUpperCase()}`}</Badge>
+            >{`${user.firstname[0].toUpperCase()}${user.lastname[0].toUpperCase()}`}</Badge>
 
             <Text
               display={{ base: "none", sm: "block" }}
