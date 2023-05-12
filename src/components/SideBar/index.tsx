@@ -62,7 +62,12 @@ export const SideBar = ({}: SideBarProps) => {
               fontWeight={pathname === item.path ? "800" : "600"}
               fontSize={"17px"}
               key={`sidebar-item-${index}`}
+              color="#201F22"
               href={item.path}
+              _hover={{
+                textDecoration: "none",
+                color: "#201f22d8",
+              }}
             >
               {item.label}
             </Link>
