@@ -30,7 +30,7 @@ async function QueryUserById() {
     },
   });
 
-  const { data } = await api.get(`/api/users/${userQuery?.user_id}`, {
+  const { data } = await api.get<UserData>(`/api/users/${userQuery?.user_id}`, {
     headers: {
       Authorization: `${user?.token}`,
     },

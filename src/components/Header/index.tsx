@@ -1,4 +1,5 @@
-import { Flex, FlexProps } from "@chakra-ui/react";
+import { useQueryUserById } from "@/query/user-get-user-data";
+import { Badge, Flex, FlexProps, HStack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { FC, useMemo } from "react";
 
@@ -6,10 +7,13 @@ type Variants = "primary" | "secondary";
 
 type HeaderProps = {
   variant?: Variants;
+  shouldShowUser?: boolean;
 } & Omit<FlexProps, "variant">;
 
 export const Header: FC<HeaderProps> = (props: HeaderProps) => {
-  const { variant = "primary" } = props;
+  const { variant = "primary", shouldShowUser } = props;
+
+  const { data: user } = useQueryUserById();
 
   const stylesByVariant = useMemo((): Record<Variants, HeaderProps> => {
     return {
@@ -30,6 +34,17 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
   return (
     <Flex {...props} {...stylesByVariant[variant]}>
       <Image alt="logo" src="/logo.svg" width={86} height={33} />
+
+      {shouldShowUser && user && (
+        <HStack>
+          <Badge
+            borderRadius="12px"
+            height="43px"
+          >{`${user.firstname[0].toUpperCase()} ${user.lastname[0].toUpperCase()}`}</Badge>
+
+          <Text>{`Olá, ${user.firstname} ${user.lastname}`}</Text>
+        </HStack>
+      )}
     </Flex>
   );
 };
