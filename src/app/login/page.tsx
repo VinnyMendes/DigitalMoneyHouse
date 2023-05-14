@@ -69,7 +69,9 @@ export default function Page() {
         {step === 0 && (
           <VStack spacing={"20px"} maxW={"360px"} w="100%">
             <FieldInputController
-              placeholder="E-mail"
+              inputProps={{
+                placeholder: "E-mail",
+              }}
               name="login"
               type="email"
               control={control}
@@ -87,7 +89,9 @@ export default function Page() {
         {step === 1 && (
           <VStack spacing={"20px"} maxW={"360px"} w="100%">
             <FieldInputController
-              placeholder="Password"
+              inputProps={{
+                placeholder: "E-Password",
+              }}
               control={control}
               name="password"
               type="password"

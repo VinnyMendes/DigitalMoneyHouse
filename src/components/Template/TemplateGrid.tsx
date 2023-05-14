@@ -21,6 +21,7 @@ export const TemplateGrid = ({ children }: TemplateGridProps) => {
           sm: "68px 52px 85px 50px",
           lg: "40px 79px 42px 79px",
         }}
+        bg="gray.100"
       >
         {children}
       </GridItem>

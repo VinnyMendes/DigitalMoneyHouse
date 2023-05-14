@@ -17,6 +17,7 @@ export const theme: ThemeConfig = extendTheme({
       500: "#C1FD35",
     },
     gray: {
+      400: "#E3DFCF",
       500: "#3A393E",
     },
   },
