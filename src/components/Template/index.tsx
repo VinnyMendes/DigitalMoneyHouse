@@ -1,3 +1,4 @@
+"use client";
 import { Box, BoxProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Header, Variants } from "../Header";

@@ -1,7 +1,8 @@
 "use client";
-import { Stack, VStack, Link } from "@chakra-ui/react";
+import { Stack, VStack } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
+import { Link } from "@chakra-ui/next-js";
 
 interface SideBarProps {}
 

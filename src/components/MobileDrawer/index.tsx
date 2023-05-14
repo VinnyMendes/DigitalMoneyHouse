@@ -9,10 +9,10 @@ import {
   DrawerOverlay,
   Box,
   VStack,
-  Link,
 } from "@chakra-ui/react";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
+import { Link } from "@chakra-ui/next-js";
 
 interface MobileDrawerProps {
   isOpen: boolean;

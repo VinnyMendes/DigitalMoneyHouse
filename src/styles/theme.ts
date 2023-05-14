@@ -2,6 +2,16 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import type { StyleFunctionProps } from "@chakra-ui/styled-system";
 
 export const theme: ThemeConfig = extendTheme({
+  // breakpoints: {
+  //   sm: "390px",
+  //   md: "834px",
+  //   lg: "62em",
+  //   xl: "80em",
+  //   "2xl": "1440px",
+  // },
+  // fonts: {
+  //   body: "var(--font-openSans)",
+  // },
   colors: {
     green: {
       500: "#C1FD35",
