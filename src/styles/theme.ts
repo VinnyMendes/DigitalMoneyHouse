@@ -9,9 +9,9 @@ export const theme: ThemeConfig = extendTheme({
   //   xl: "80em",
   //   "2xl": "1440px",
   // },
-  // fonts: {
-  //   body: "var(--font-openSans)",
-  // },
+  fonts: {
+    body: "var(--font-openSans)",
+  },
   colors: {
     green: {
       500: "#C1FD35",
