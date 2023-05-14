@@ -6,12 +6,23 @@ interface TemplateGridProps {
 
 export const TemplateGrid = ({ children }: TemplateGridProps) => {
   return (
-    <Grid gridTemplateColumns={"1fr 1fr"} h="calc(100vh - 128px)">
+    <Grid
+      gridTemplateColumns={{ base: "1fr", sm: "221px 1fr", lg: "276px 1fr" }}
+      h="calc(100vh - 128px)"
+    >
       <GridItem display={{ base: "none", sm: "grid" }} h={"100%"}>
         <SideBar />
       </GridItem>
 
-      <GridItem>{children}</GridItem>
+      <GridItem
+        p={{
+          base: "20px 20px 42px 20px",
+          sm: "68px 52px 85px 50px",
+          lg: "40px 79px 42px 79px",
+        }}
+      >
+        {children}
+      </GridItem>
     </Grid>
   );
 };
