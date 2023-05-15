@@ -2,7 +2,16 @@
 import { DefaultButton } from "@/components/Button";
 import { Template } from "@/components/Template";
 import { TemplateGrid } from "@/components/Template/TemplateGrid";
-import { HStack, Stack, Flex, Text, Box, VStack } from "@chakra-ui/react";
+import {
+  HStack,
+  Stack,
+  Flex,
+  Text,
+  Box,
+  VStack,
+  InputGroup,
+  InputLeftElement,
+} from "@chakra-ui/react";
 import { Link } from "@chakra-ui/next-js";
 import FieldInput from "@/components/FieldInput";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -89,7 +98,23 @@ export default function Home() {
             />
           </Stack>
 
-          <FieldInput border="1px solid #D2FFEC" name="search" />
+          <InputGroup>
+            <InputLeftElement h="full">
+              <AiOutlineSearch />
+            </InputLeftElement>
+            <FieldInput
+              background={"#FFFF !important"}
+              border="1px solid #D2FFEC"
+              name="search"
+              placeholder="Pesquisar em sua atividade"
+              _focus={{ boxShadow: "none", outline: "none" }}
+              _placeholder={{
+                color: "rgba(0, 0, 0, 0.5)",
+              }}
+              fontWeight={"400"}
+              pl="35px"
+            />
+          </InputGroup>
         </VStack>
       </TemplateGrid>
     </Template>
