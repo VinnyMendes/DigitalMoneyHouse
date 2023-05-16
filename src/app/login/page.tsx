@@ -68,19 +68,32 @@ export default function Page() {
       >
         {step === 0 && (
           <VStack spacing={"20px"} maxW={"360px"} w="100%">
+            <Text
+              mt="15px"
+              fontWeight=" 700"
+              fontSize=" 20px"
+              lineHeight=" 24px"
+              color="#FFFF"
+              textAlign="center"
+            >
+              Olá! Digite seu endereço de e-mail
+            </Text>
+
             <FieldInputController
-              inputProps={{
-                placeholder: "E-mail",
-              }}
               name="login"
               type="email"
               control={control}
               error={errors.login}
+              placeholder="E-mail"
             />
 
             <DefaultButton label="Continuar" onClick={checkIfError} />
 
-            <DefaultButton variant="secondary" label="Criar conta" />
+            <DefaultButton
+              variant="secondary"
+              label="Criar conta"
+              onClick={() => push("/signup")}
+            />
 
             {errors.login && <Text color={"red"}>{errors.login.message}</Text>}
           </VStack>
@@ -88,10 +101,19 @@ export default function Page() {
 
         {step === 1 && (
           <VStack spacing={"20px"} maxW={"360px"} w="100%">
+            <Text
+              mt="15px"
+              fontWeight=" 700"
+              fontSize=" 20px"
+              lineHeight=" 24px"
+              color="#FFFF"
+              textAlign="center"
+            >
+              Digite sua senha
+            </Text>
+
             <FieldInputController
-              inputProps={{
-                placeholder: "E-Password",
-              }}
+              placeholder="Senha"
               control={control}
               name="password"
               type="password"

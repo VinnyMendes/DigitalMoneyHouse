@@ -13,6 +13,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { Link } from "@chakra-ui/next-js";
+import { signOut } from "next-auth/react";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -22,6 +23,7 @@ interface MobileDrawerProps {
 interface Options {
   label: string;
   path: string;
+  onClick?: () => void;
 }
 
 export const MobileDrawer = (props: MobileDrawerProps) => {
@@ -58,6 +60,9 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
       {
         label: "Encerrar sessão",
         path: "/",
+        onClick: async () => {
+          await signOut({ redirect: true, callbackUrl: "/" });
+        },
       },
     ];
   }, []);
@@ -102,6 +107,7 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
                     textDecoration: "none",
                     color: "#201f22d8",
                   }}
+                  onClick={item.onClick}
                 >
                   {item.label}
                 </Link>
