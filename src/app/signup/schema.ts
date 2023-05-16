@@ -6,24 +6,13 @@ const passwordConstraint = z
   .max(20, { message: "Máximo de 20 caracteres" })
   .nonempty("Campo obrigatário");
 
-const nameConstraint = z
-  .string()
-  .max(20, { message: "Máximo de 20 caracteres" })
-  .nonempty("O campo é obrigatório")
-  .transform((name) =>
-    name
-      .trim()
-      .split(" ")
-      .map((word) => word[0].toLocaleUpperCase().concat(word.substring(1)))
-      .join(" ")
-  );
+const nameConstraint = z.string().max(20, { message: "Máximo de 20 caracteres" }).nonempty("O campo é obrigatório");
 
-export const registerSchema = z
+export const signupSchema = z
   .object({
     firstName: nameConstraint,
     lastName: nameConstraint,
-    cpf: z.string().length(11, { message: "CPF deve ter exatamente 11 caracteres" }).nonempty(),
-    name: z.string().max(20, { message: "Máximo de 20 caracteres" }).nonempty(),
+    // dni: z.string().length(11, { message: "CPF/DNI deve ter exatamente 11 caracteres" }).nonempty(),
     email: z.string().email("E-mail inválido").nonempty("Campo obrigatório").toLowerCase(),
     password: passwordConstraint,
     confirmPassword: passwordConstraint,
@@ -33,4 +22,4 @@ export const registerSchema = z
     message: "A senha e a confirmação devem ser iguais",
   });
 
-export type zodInfer = z.infer<typeof registerSchema>;
+export type signupZodInfer = z.infer<typeof signupSchema>;
