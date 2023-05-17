@@ -7,21 +7,27 @@ import {
   Text,
   useBreakpointValue,
   useDisclosure,
+  Box,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import { FC, useMemo } from "react";
 import MobileDrawer from "../MobileDrawer";
 import { AiOutlineMenu } from "react-icons/ai";
+import { DefaultButton } from "@/components/Button";
+import { useRouter } from "next/navigation";
 
 export type Variants = "primary" | "secondary";
 
 type HeaderProps = {
+  buttonOn?: boolean;
   variant?: Variants;
   shouldShowUser?: boolean;
 } & Omit<FlexProps, "variant">;
 
 export const Header: FC<HeaderProps> = (props: HeaderProps) => {
-  const { variant = "primary", shouldShowUser } = props;
+  const { buttonOn, variant = "primary", shouldShowUser } = props;
+
+  const { push } = useRouter();
 
   const { data: user } = useQueryUserById();
 
@@ -57,6 +63,29 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
 
       {variant === "secondary" && (
         <Image alt="logo" src="/logo-alt.svg" width={86} height={33} />
+      )}
+
+      {buttonOn && (
+        <>
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            w={{ base: "60%", md: "40%", lg: "20%" }}
+            h={"40px"}
+          >
+            <DefaultButton
+              variant="home1"
+              label="Entrar"
+              marginRight={"8%"}
+              onClick={() => push("/login")}
+            />
+            <DefaultButton
+              variant="home2"
+              label="Criar conta"
+              onClick={() => push("/signup")}
+            />
+          </Box>
+        </>
       )}
 
       {shouldShowUser && user && (

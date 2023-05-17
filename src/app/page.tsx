@@ -1,11 +1,10 @@
 "use client";
 import { Template } from "@/components/Template";
 import { Flex, Image, Box, Center, Text } from "@chakra-ui/react";
-import { Footer } from "@/components/Footer";
 
 export default function Home() {
   return (
-    <Template variant="secondary">
+    <Template buttonOn variant="secondary">
       <Flex
         position={"relative"}
         w="100%"

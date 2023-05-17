@@ -1,7 +1,7 @@
 import { Button, ButtonProps } from "@chakra-ui/react";
 import { FC, useMemo } from "react";
 
-type Variants = "primary" | "secondary";
+type Variants = "primary" | "secondary" | "home1" | "home2";
 
 interface DefaultButtonProps extends Omit<ButtonProps, Variants> {
   label: string;
@@ -42,6 +42,35 @@ export const DefaultButton: FC<DefaultButtonProps> = (
         },
         _hover: {
           background: "#cececee6",
+        },
+      },
+      home1: {
+        background: "none",
+        border: "1px solid #C1FD35",
+        borderRadius: "5px",
+        textAlign: "center",
+        color: "#C1FD35",
+        w: "100%",
+        height: "100%",
+        _hover: {
+          boxShadow: "4px 4px 4px #c1fd355d",
+          transition: "0.2s",
+          transform: "translateY(-1px)",
+        },
+      },
+      home2: {
+        background: "#C1FD35",
+        border: "1px solid #C1FD35",
+        borderRadius: "5px",
+        fontWeight: "bold",
+        textAlign: "center",
+        color: "#000000",
+        w: "100%",
+        height: "100%",
+        _hover: {
+          boxShadow: "5px 5px 4px #c1fd355d",
+          transition: "0.2s",
+          transform: "translateY(-1px)",
         },
       },
     };
