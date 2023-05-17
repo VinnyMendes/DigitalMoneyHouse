@@ -1,7 +1,7 @@
 "use client";
 import { signupZodInfer } from "@/app/signup/schema";
 import { api } from "@/libs/axios";
-import { useMutation, useQuery } from "react-query";
+import { useMutation } from "react-query";
 
 interface CreatedUserResponse {
   account_id: 0;

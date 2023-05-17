@@ -6,13 +6,13 @@ const passwordConstraint = z
   .max(20, { message: "Máximo de 20 caracteres" })
   .nonempty("Campo obrigatário");
 
-const nameConstraint = z.string().max(20, { message: "Máximo de 20 caracteres" }).nonempty("O campo é obrigatório");
+const nameConstraint = z.string().max(20, { message: "Máximo de 20 caracteres" }).nonempty("O campo nome é obrigatório");
 
 export const signupSchema = z
   .object({
     firstName: nameConstraint,
     lastName: nameConstraint,
-    // dni: z.string().length(11, { message: "CPF/DNI deve ter exatamente 11 caracteres" }).nonempty(),
+    dni: z.string().nonempty(),
     email: z.string().email("E-mail inválido").nonempty("Campo obrigatório").toLowerCase(),
     password: passwordConstraint,
     confirmPassword: passwordConstraint,

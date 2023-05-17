@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { FormControl, FormHelperText, FormLabel, InputProps, useColorMode } from "@chakra-ui/react";
 import { Control, Controller, FieldError } from "react-hook-form";
