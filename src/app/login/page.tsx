@@ -80,7 +80,7 @@ export default function Page() {
 
             <DefaultButton label="Continuar" onClick={checkIfError} />
 
-            <DefaultButton variant="secondary" label="Criar conta" />
+            <DefaultButton variant="secondary" label="Criar conta" onClick={() => push("/signup")} />
 
             {errors.login && <Text color={"red"}>{errors.login.message}</Text>}
           </VStack>
@@ -98,11 +98,7 @@ export default function Page() {
               error={errors.password}
             />
 
-            <DefaultButton
-              isLoading={isSubmitting}
-              label="Continuar"
-              type="submit"
-            />
+            <DefaultButton isLoading={isSubmitting} label="Continuar" type="submit" />
 
             {loginErrorMessage && <Text color="red">{loginErrorMessage}</Text>}
           </VStack>

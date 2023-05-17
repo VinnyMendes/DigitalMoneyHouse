@@ -11,7 +11,7 @@ import { useCreateUser } from "@/query/create-user";
 import { FieldInputMaskController } from "@/components/FieldComponentMask";
 
 export default function SignupPage() {
-  // const { push } = useRouter();
+  const { push } = useRouter();
   const { mutateAsync, error } = useCreateUser();
   const toast = useToast();
 
@@ -26,7 +26,7 @@ export default function SignupPage() {
         phone: userData.phone,
       });
       toast({ title: "Sucesso", description: "Usuário criado.", status: "success", duration: 4000, isClosable: true });
-      // return push("/signup-success");
+      return push("/signup-success");
     } catch (error) {
       toast({ title: "Erro", description: "Falha ao criar usuário", status: "error", duration: 4000, isClosable: true });
     }
