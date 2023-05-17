@@ -12,11 +12,19 @@ export const signupSchema = z
   .object({
     firstName: nameConstraint,
     lastName: nameConstraint,
-    dni: z.string().nonempty(),
+    dni: z
+      .string()
+      .nonempty()
+      .transform((val) => val.replaceAll(".", "").replace("-", "")),
     email: z.string().email("E-mail inválido").nonempty("Campo obrigatório").toLowerCase(),
     password: passwordConstraint,
     confirmPassword: passwordConstraint,
-    phone: z.string().min(8).max(9).nonempty(),
+    phone: z
+      .string()
+      .min(8)
+      .max(16)
+      .nonempty("Campo obrigatório")
+      .refine((val) => val.replaceAll("_", "")),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "A senha e a confirmação devem ser iguais",

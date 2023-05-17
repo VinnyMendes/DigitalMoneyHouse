@@ -1,18 +1,24 @@
 "use client";
-import { signupZodInfer } from "@/app/signup/schema";
 import { api } from "@/libs/axios";
 import { useMutation } from "react-query";
 
 interface CreatedUserResponse {
-  account_id: 0;
+  account_id: number;
   email: string;
-  user_id: 0;
+  user_id: number;
 }
 
-type UserData = Omit<signupZodInfer, "confirmPassword">;
+export type UserDataOutput = {
+  dni: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  phone: string;
+};
 
-export async function CreateUser(userData: UserData) {
-  await api.post<CreatedUserResponse>("/api/users/", userData);
+export async function CreateUser(userData: UserDataOutput) {
+  await api.post<CreatedUserResponse>("/api/users", userData);
 }
 
 export function useCreateUser() {
