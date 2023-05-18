@@ -1,14 +1,5 @@
 import { useQueryUserById } from "@/query/user-get-user-data";
-import {
-  Badge,
-  Flex,
-  FlexProps,
-  HStack,
-  Text,
-  useBreakpointValue,
-  useDisclosure,
-  Box,
-} from "@chakra-ui/react";
+import { Badge, Flex, FlexProps, HStack, Text, useBreakpointValue, useDisclosure, Box } from "@chakra-ui/react";
 import Image from "next/image";
 import { FC, useMemo } from "react";
 import MobileDrawer from "../MobileDrawer";
@@ -51,39 +42,17 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
   const isSm = useBreakpointValue({ base: true, sm: false });
 
   return (
-    <Flex
-      justifyContent={"space-between"}
-      alignItems={"center"}
-      {...props}
-      {...stylesByVariant[variant]}
-    >
-      {variant === "primary" && (
-        <Image alt="logo" src="/logo.svg" width={86} height={33} />
-      )}
-
+    <Flex justifyContent={"space-between"} alignItems={"center"} {...props} {...stylesByVariant[variant]}>
+      {variant === "primary" && <Image alt="logo" src="/logo.svg" width={86} height={33} style={{ cursor: "pointer" }} onClick={() => push("/")} />}
       {variant === "secondary" && (
-        <Image alt="logo" src="/logo-alt.svg" width={86} height={33} />
+        <Image alt="logo" src="/logo-alt.svg" width={86} height={33} style={{ cursor: "pointer" }} onClick={() => push("/")} />
       )}
 
       {buttonOn && (
         <>
-          <Box
-            display={"flex"}
-            alignItems={"center"}
-            w={{ base: "60%", md: "40%", lg: "20%" }}
-            h={"40px"}
-          >
-            <DefaultButton
-              variant="home1"
-              label="Entrar"
-              marginRight={"8%"}
-              onClick={() => push("/login")}
-            />
-            <DefaultButton
-              variant="home2"
-              label="Criar conta"
-              onClick={() => push("/signup")}
-            />
+          <Box display={"flex"} alignItems={"center"} w={{ base: "60%", md: "40%", lg: "20%" }} h={"40px"}>
+            <DefaultButton variant="home1" label="Entrar" marginRight={"8%"} onClick={() => push("/login")} />
+            <DefaultButton variant="home2" label="Criar conta" onClick={() => push("/signup")} />
           </Box>
         </>
       )}
