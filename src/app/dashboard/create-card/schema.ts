@@ -11,7 +11,7 @@ export const cardSchema = z.object({
       ) {
         ctx.addIssue({
           code: "custom",
-          message: "Deve possuir no mínimo 16 caracteres",
+          message: "Número cartão inválido",
         });
       }
     })
@@ -27,10 +27,10 @@ export const cardSchema = z.object({
       if (year) {
         const formattedYear = Number(year);
 
-        if (formattedYear < 2000) {
+        if (formattedYear < 2000 || formattedYear > 2099) {
           ctx.addIssue({
             code: "custom",
-            message: "Ano inválido",
+            message: "Ano deve começar com 20XX",
           });
         }
       }
@@ -41,7 +41,7 @@ export const cardSchema = z.object({
       ) {
         ctx.addIssue({
           code: "custom",
-          message: "Deve possuir no mínimo 6 caracteres",
+          message: "Data inválida",
         });
       }
     })
@@ -49,7 +49,7 @@ export const cardSchema = z.object({
   first_last_name: z
     .string()
     .nonempty("Campo obrigatário")
-    .min(4, "Deve possuir no mínimo quatro caracteres"),
+    .min(4, "Nome inválido"),
   cod: z
     .string()
     .nonempty("Campo obrigatário")
@@ -57,7 +57,7 @@ export const cardSchema = z.object({
       if (value.replaceAll(" ", "").replaceAll("_", "").trim().length < 3) {
         ctx.addIssue({
           code: "custom",
-          message: "Deve possuir no mínimo trés caracteres",
+          message: "Nome inválido",
         });
       }
     })

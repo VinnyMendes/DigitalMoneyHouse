@@ -12,7 +12,7 @@ import { FieldInputMaskController } from "@/components/FieldComponentMask/FieldM
 
 export default function SignupPage() {
   const { push } = useRouter();
-  const { mutateAsync, error } = useCreateUser();
+  const { mutateAsync } = useCreateUser();
   const toast = useToast();
 
   const onSubmit = async (userData: signupZodInfer) => {
@@ -163,6 +163,7 @@ export default function SignupPage() {
             <DefaultButton
               variant="primary"
               label="Criar conta"
+              maxW={"350px"}
               isLoading={isSubmitting}
               type="submit"
             />

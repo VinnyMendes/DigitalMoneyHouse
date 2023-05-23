@@ -1,7 +1,7 @@
 "use client";
 import { Template } from "@/components/Template";
 import { TemplateGrid } from "@/components/Template/TemplateGrid";
-import { Box, Flex, Stack, VStack } from "@chakra-ui/react";
+import { Box, Flex, Stack, VStack, useToast } from "@chakra-ui/react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { FieldError, useForm } from "react-hook-form";
@@ -9,10 +9,10 @@ import { cardInferSchemaType, cardSchema } from "./schema";
 import { FieldInputController } from "@/components/FieldInput/FieldInputController";
 import { DefaultButton } from "@/components/Button";
 import { useCreateCard } from "@/query/use-mutate-ceate-card";
-import { useSession } from "next-auth/react";
 import { FieldInputMaskController } from "@/components/FieldComponentMask/FieldMaskController";
 import { ZodError } from "zod";
 import { useQueryUserByJWT } from "@/query/use-get-query-user-by-jwt";
+import { AxiosError } from "axios";
 interface FormInput {
   cod: string;
   expiration_date: string;
@@ -47,21 +47,32 @@ export default function CreateCard() {
   const mutateCreateCard = useCreateCard();
 
   const { data } = useQueryUserByJWT();
-  console.log(data);
+
+  const toast = useToast();
+
   const submitForm = async (formData: cardInferSchemaType) => {
     try {
       const validateForm = await cardSchema.parseAsync(formData);
 
       if (data?.id) {
-        mutateCreateCard.mutateAsync({
+        await mutateCreateCard.mutateAsync({
           cod: validateForm.cod,
           expiration_date: validateForm.expiration_date,
           first_last_name: validateForm.first_last_name,
           number_id: validateForm.number_id,
           account_id: data.id,
         });
+
+        toast({
+          title: "Sucesso",
+          description: "Usuário criado.",
+          status: "success",
+          duration: 4000,
+          isClosable: true,
+        });
       }
     } catch (error: any) {
+      console.log(error);
       if (error instanceof ZodError) {
         const zodErrors: ZodValidationError[] = error.errors.map((err) => ({
           type: "zod",
@@ -71,6 +82,16 @@ export default function CreateCard() {
 
         zodErrors.forEach((zodError) => {
           setError(zodError.path as any, zodError);
+        });
+      }
+
+      if (!(error instanceof ZodError)) {
+        toast({
+          title: "Erro",
+          description: "Falha ao criar usuário",
+          status: "error",
+          duration: 4000,
+          isClosable: true,
         });
       }
     }
