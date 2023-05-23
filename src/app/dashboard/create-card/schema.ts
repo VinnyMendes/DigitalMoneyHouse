@@ -3,13 +3,36 @@ import * as z from "zod";
 export const cardSchema = z.object({
   number_id: z
     .string()
-    .min(11, "Campo obrigatário")
     .nonempty("Campo obrigatário")
-    .transform((value) => (value ? Number(value.replaceAll(" ", "")) : 0)),
+    .superRefine((value, ctx) => {
+      if (
+        value.replaceAll(" ", "").replaceAll("_", "").replaceAll("/", "").trim()
+          .length < 16
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Deve possuir no mínimo 16 caracteres",
+        });
+      }
+    })
+    .transform((value) =>
+      value ? Number(value.replaceAll(" ", "").replaceAll("_", "")) : 0
+    ),
   expiration_date: z
     .string()
     .nonempty("Campo obrigatário")
-    .min(7, "Deve possuir no mínimo sete caracteres"),
+    .superRefine((value, ctx) => {
+      if (
+        value.replaceAll(" ", "").replaceAll("_", "").replaceAll("/", "").trim()
+          .length < 6
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Deve possuir no mínimo 6 caracteres",
+        });
+      }
+    })
+    .transform((value) => value && value.replaceAll("_", "")),
   first_last_name: z
     .string()
     .nonempty("Campo obrigatário")
@@ -17,7 +40,17 @@ export const cardSchema = z.object({
   cod: z
     .string()
     .nonempty("Campo obrigatário")
-    .transform((value) => (value ? Number(value) : 0)),
+    .superRefine((value, ctx) => {
+      if (value.replaceAll(" ", "").replaceAll("_", "").trim().length < 3) {
+        ctx.addIssue({
+          code: "custom",
+          message: "Deve possuir no mínimo trés caracteres",
+        });
+      }
+    })
+    .transform((value) =>
+      value ? Number(value.replaceAll(" ", "").replaceAll("_", "").trim()) : 0
+    ),
 });
 
 export type cardInferSchemaType = z.infer<typeof cardSchema>;

@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signupSchema, signupZodInfer } from "./schema";
 import { useRouter } from "next/navigation";
-import { FieldInputMaskController } from "@/components/FieldComponentMask";
 import { useCreateUser } from "@/query/use-mutate-create-user";
+import { FieldInputMaskController } from "@/components/FieldComponentMask/FieldMaskController";
 
 export default function SignupPage() {
   const { push } = useRouter();

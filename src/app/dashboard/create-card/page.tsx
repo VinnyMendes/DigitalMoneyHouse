@@ -4,15 +4,14 @@ import { TemplateGrid } from "@/components/Template/TemplateGrid";
 import { Box, Flex, Stack, VStack } from "@chakra-ui/react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
-import { useForm } from "react-hook-form";
+import { FieldError, useForm } from "react-hook-form";
 import { cardInferSchemaType, cardSchema } from "./schema";
-import { FieldInputMaskController } from "@/components/FieldComponentMask";
 import { FieldInputController } from "@/components/FieldInput/FieldInputController";
 import { DefaultButton } from "@/components/Button";
 import { useCreateCard } from "@/query/use-mutate-ceate-card";
 import { useSession } from "next-auth/react";
-import { zodResolver } from "@hookform/resolvers/zod";
-
+import { FieldInputMaskController } from "@/components/FieldComponentMask/FieldMaskController";
+import { ZodError } from "zod";
 interface FormInput {
   cod: string;
   expiration_date: string;
@@ -20,14 +19,20 @@ interface FormInput {
   number_id: string;
 }
 
+interface ZodValidationError extends FieldError {
+  type: "zod";
+  message: string;
+  path: string;
+}
+
 export default function CreateCard() {
   const {
     watch,
     control,
+    setError,
     handleSubmit,
     formState: { errors },
   } = useForm<FormInput>({
-    resolver: zodResolver(cardSchema),
     defaultValues: {
       cod: "",
       expiration_date: "",
@@ -36,7 +41,6 @@ export default function CreateCard() {
     },
   });
 
-  console.log(errors);
   const { cod, expiration_date, first_last_name, number_id } = watch();
 
   const mutateCreateCard = useCreateCard();
@@ -45,13 +49,30 @@ export default function CreateCard() {
 
   const submitForm = async (formData: cardInferSchemaType) => {
     try {
+      const validateForm = await cardSchema.parseAsync(formData);
+
       if (data?.user?.id) {
         mutateCreateCard.mutateAsync({
-          ...formData,
+          cod: validateForm.cod,
+          expiration_date: validateForm.expiration_date,
+          first_last_name: validateForm.first_last_name,
+          number_id: validateForm.number_id,
           account_id: data?.user.id,
         });
       }
-    } catch (error: any) {}
+    } catch (error: any) {
+      if (error instanceof ZodError) {
+        const zodErrors: ZodValidationError[] = error.errors.map((err) => ({
+          type: "zod",
+          message: err.message,
+          path: err.path.join("."),
+        }));
+
+        zodErrors.forEach((zodError) => {
+          setError(zodError.path as any, zodError);
+        });
+      }
+    }
   };
 
   return (

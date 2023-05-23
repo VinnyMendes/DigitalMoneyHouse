@@ -42,7 +42,7 @@ export const authOptions: NextAuthOptions = {
           });
 
           const { token } = data;
-
+          console.log(token);
           api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
           const user = {
