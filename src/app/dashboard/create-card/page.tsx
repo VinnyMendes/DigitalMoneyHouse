@@ -12,7 +12,6 @@ import { useCreateCard } from "@/query/use-mutate-ceate-card";
 import { FieldInputMaskController } from "@/components/FieldComponentMask/FieldMaskController";
 import { ZodError } from "zod";
 import { useQueryUserByJWT } from "@/query/use-get-query-user-by-jwt";
-import { AxiosError } from "axios";
 interface FormInput {
   cod: string;
   expiration_date: string;
@@ -32,7 +31,7 @@ export default function CreateCard() {
     control,
     setError,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormInput>({
     defaultValues: {
       cod: "",
@@ -65,7 +64,7 @@ export default function CreateCard() {
 
         toast({
           title: "Sucesso",
-          description: "Usuário criado.",
+          description: "Cartão cadastrado.",
           status: "success",
           duration: 4000,
           isClosable: true,
@@ -88,7 +87,7 @@ export default function CreateCard() {
       if (!(error instanceof ZodError)) {
         toast({
           title: "Erro",
-          description: "Falha ao criar usuário",
+          description: "Falha ao cadastrar cartão",
           status: "error",
           duration: 4000,
           isClosable: true,
@@ -219,6 +218,7 @@ export default function CreateCard() {
                 label="Continuar"
                 variant="primary"
                 alignSelf={"end"}
+                isLoading={isSubmitting}
                 type="submit"
               />
             </VStack>
