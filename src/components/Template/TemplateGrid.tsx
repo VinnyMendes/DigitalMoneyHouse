@@ -8,10 +8,10 @@ interface TemplateGridProps extends GridProps {
 export const TemplateGrid = ({ children }: TemplateGridProps) => {
   return (
     <Grid
-      gridTemplateColumns={{ base: "1fr", sm: "221px 1fr", lg: "276px 1fr" }}
+      gridTemplateColumns={{ base: "1fr", md: "221px 1fr", lg: "276px 1fr" }}
       h="calc(100vh - 128px)"
     >
-      <GridItem display={{ base: "none", sm: "grid" }} h={"100%"}>
+      <GridItem display={{ base: "none", md: "grid" }} h={"100%"}>
         <SideBar />
       </GridItem>
 
