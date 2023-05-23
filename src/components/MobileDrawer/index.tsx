@@ -55,7 +55,7 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
       },
       {
         label: "Cartões",
-        path: "/",
+        path: "/dashboard/create-card",
       },
       {
         label: "Encerrar sessão",

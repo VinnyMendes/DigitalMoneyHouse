@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
-import { FormControl, FormHelperText, FormLabel, InputProps, useColorMode } from "@chakra-ui/react";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  InputProps,
+  useColorMode,
+} from "@chakra-ui/react";
 import { Control, Controller, FieldError } from "react-hook-form";
 import FieldInput from "../FieldInput/index";
 import ReactInputMask, { Props } from "react-input-mask";
@@ -48,7 +54,15 @@ export const FieldInputMaskController: React.FC<FieldInputRegisterProps> = ({
         name={name}
         control={control}
         defaultValue={defaultValue}
-        render={({ field }) => <FieldInput as={ReactInputMask} border={error && "1px solid #EE3838"} id={name} {...inputProps} {...field} />}
+        render={({ field }) => (
+          <FieldInput
+            as={ReactInputMask}
+            border={error && "1px solid #EE3838"}
+            id={name}
+            {...inputProps}
+            {...field}
+          />
+        )}
       />
 
       {helperText && !error && <FormHelperText>{helperText}</FormHelperText>}

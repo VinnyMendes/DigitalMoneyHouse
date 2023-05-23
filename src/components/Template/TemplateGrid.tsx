@@ -1,7 +1,7 @@
 "use client";
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, GridProps } from "@chakra-ui/react";
 import { SideBar } from "../SideBar";
-interface TemplateGridProps {
+interface TemplateGridProps extends GridProps {
   children: React.ReactNode;
 }
 
@@ -22,6 +22,7 @@ export const TemplateGrid = ({ children }: TemplateGridProps) => {
           lg: "40px 79px 42px 79px",
         }}
         bg="gray.100"
+        w="100%"
       >
         {children}
       </GridItem>
