@@ -38,7 +38,7 @@ export const SideBar = ({}: SideBarProps) => {
       },
       {
         label: "Cartões",
-        path: "/",
+        path: "/dashboard/create-card",
       },
       {
         label: "Encerrar sessão",

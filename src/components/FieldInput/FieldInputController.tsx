@@ -1,6 +1,7 @@
 import React from "react";
 import {
   FormControl,
+  FormErrorMessage,
   FormHelperText,
   FormLabel,
   InputProps,
@@ -62,6 +63,8 @@ export const FieldInputController: React.FC<FieldInputRegisterProps> = ({
       />
 
       {helperText && !error && <FormHelperText>{helperText}</FormHelperText>}
+
+      {error && <FormErrorMessage>{error.message}</FormErrorMessage>}
     </FormControl>
   );
 };

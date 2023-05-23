@@ -1,4 +1,5 @@
-import { api } from "@/libs/axios";
+import { useAxiosInstance } from "@/libs/axios";
+import axios from "axios";
 import { randomUUID } from "crypto";
 import { type GetServerSidePropsContext } from "next";
 import {
@@ -36,14 +37,15 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const { data } = await api.post<{ token: string }>("/api/login", {
-            email: credentials?.email,
-            password: credentials?.password,
-          });
+          const { data } = await axios.post<{ token: string }>(
+            "https://digitalmoney.ctd.academy/api/login",
+            {
+              email: credentials?.email,
+              password: credentials?.password,
+            }
+          );
 
           const { token } = data;
-
-          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
           const user = {
             id: randomUUID(),

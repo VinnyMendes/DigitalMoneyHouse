@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/libs/axios";
+import { useAxiosInstance } from "@/libs/axios";
 import { useMutation } from "react-query";
 
 interface CreatedUserResponse {
@@ -18,6 +18,7 @@ export type UserDataOutput = {
 };
 
 export async function CreateUser(userData: UserDataOutput) {
+  const api = await useAxiosInstance();
   await api.post<CreatedUserResponse>("/api/users", userData);
 }
 
