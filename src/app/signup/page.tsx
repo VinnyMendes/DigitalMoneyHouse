@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signupSchema, signupZodInfer } from "./schema";
 import { useRouter } from "next/navigation";
-import { useCreateUser } from "@/query/create-user";
 import { FieldInputMaskController } from "@/components/FieldComponentMask";
+import { useCreateUser } from "@/query/use-mutate-create-user";
 
 export default function SignupPage() {
   const { push } = useRouter();
@@ -25,10 +25,22 @@ export default function SignupPage() {
         password: userData.password,
         phone: userData.phone,
       });
-      toast({ title: "Sucesso", description: "Usuário criado.", status: "success", duration: 4000, isClosable: true });
+      toast({
+        title: "Sucesso",
+        description: "Usuário criado.",
+        status: "success",
+        duration: 4000,
+        isClosable: true,
+      });
       return push("/signup-success");
     } catch (error) {
-      toast({ title: "Erro", description: "Falha ao criar usuário", status: "error", duration: 4000, isClosable: true });
+      toast({
+        title: "Erro",
+        description: "Falha ao criar usuário",
+        status: "error",
+        duration: 4000,
+        isClosable: true,
+      });
     }
   };
 
@@ -63,23 +75,71 @@ export default function SignupPage() {
         p={{ base: "45px", sm: "unset" }}
       >
         <VStack spacing={"20px"} maxW={{ base: "360px", md: "720" }} w="100%">
-          <Stack spacing={"20px"} w="100%" direction={{ base: "column", md: "row" }}>
-            <FieldInputController placeholder="Nome*" name="firstName" type="text" control={control} error={errors.firstName} />
-            {errors.firstName && <Text color={"red"}>{errors.firstName.message}</Text>}
-            <FieldInputController placeholder="Sobrenome*" name="lastName" type="text" control={control} error={errors.lastName} />
-            {errors.lastName && <Text color={"red"}>{errors.lastName.message}</Text>}
+          <Stack
+            spacing={"20px"}
+            w="100%"
+            direction={{ base: "column", md: "row" }}
+          >
+            <FieldInputController
+              placeholder="Nome*"
+              name="firstName"
+              type="text"
+              control={control}
+              error={errors.firstName}
+            />
+            {errors.firstName && (
+              <Text color={"red"}>{errors.firstName.message}</Text>
+            )}
+            <FieldInputController
+              placeholder="Sobrenome*"
+              name="lastName"
+              type="text"
+              control={control}
+              error={errors.lastName}
+            />
+            {errors.lastName && (
+              <Text color={"red"}>{errors.lastName.message}</Text>
+            )}
           </Stack>
-          <Stack spacing={"20px"} w="100%" direction={{ base: "column", md: "row" }}>
-            <FieldInputMaskController mask={"999.999.999-99"} placeholder="CPF*" name="dni" type="text" control={control} error={errors.dni} />
+          <Stack
+            spacing={"20px"}
+            w="100%"
+            direction={{ base: "column", md: "row" }}
+          >
+            <FieldInputMaskController
+              mask={"999.999.999-99"}
+              placeholder="CPF*"
+              name="dni"
+              type="text"
+              control={control}
+              error={errors.dni}
+            />
             {errors.dni && <Text color={"red"}>{errors.dni.message}</Text>}
-            <FieldInputController placeholder="E-mail*" name="email" type="email" control={control} error={errors.email} />
+            <FieldInputController
+              placeholder="E-mail*"
+              name="email"
+              type="email"
+              control={control}
+              error={errors.email}
+            />
             {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
           </Stack>
           <Text color="#FFFF" fontSize="14px">
-            Use entre 6 e 20 caracteres (deve conter pelo menos 1 caractere especial, uma letra maiúscula e um número)
+            Use entre 6 e 20 caracteres (deve conter pelo menos 1 caractere
+            especial, uma letra maiúscula e um número)
           </Text>
-          <Stack spacing={"20px"} w="100%" direction={{ base: "column", md: "row" }}>
-            <FieldInputController placeholder="Senha*" control={control} name="password" type="password" error={errors.password} />
+          <Stack
+            spacing={"20px"}
+            w="100%"
+            direction={{ base: "column", md: "row" }}
+          >
+            <FieldInputController
+              placeholder="Senha*"
+              control={control}
+              name="password"
+              type="password"
+              error={errors.password}
+            />
             <FieldInputController
               placeholder="Confirmar senha*"
               name="confirmPassword"
@@ -87,9 +147,15 @@ export default function SignupPage() {
               control={control}
               error={errors.confirmPassword}
             />
-            {errors.confirmPassword && <Text color={"red"}>{errors.confirmPassword.message}</Text>}
+            {errors.confirmPassword && (
+              <Text color={"red"}>{errors.confirmPassword.message}</Text>
+            )}
           </Stack>
-          <Stack spacing={"20px"} w="100%" direction={{ base: "column", md: "row" }}>
+          <Stack
+            spacing={"20px"}
+            w="100%"
+            direction={{ base: "column", md: "row" }}
+          >
             <FieldInputMaskController
               mask={"(99) 99999-9999"}
               placeholder="Telefone*"
@@ -99,7 +165,12 @@ export default function SignupPage() {
               error={errors.phone}
             />
             {errors.phone && <Text color={"red"}>{errors.phone.message}</Text>}
-            <DefaultButton variant="primary" label="Criar conta" isLoading={isSubmitting} type="submit" />
+            <DefaultButton
+              variant="primary"
+              label="Criar conta"
+              isLoading={isSubmitting}
+              type="submit"
+            />
           </Stack>
         </VStack>
       </Flex>

@@ -15,15 +15,7 @@ export const TemplateGrid = ({ children }: TemplateGridProps) => {
         <SideBar />
       </GridItem>
 
-      <GridItem
-        p={{
-          base: "20px 20px 42px 20px",
-          sm: "68px 52px 85px 50px",
-          lg: "40px 79px 42px 79px",
-        }}
-        bg="gray.100"
-        w="100%"
-      >
+      <GridItem bg="gray.100" w="100%">
         {children}
       </GridItem>
     </Grid>
