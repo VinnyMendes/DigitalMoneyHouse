@@ -87,9 +87,7 @@ export default function SignupPage() {
               control={control}
               error={errors.firstName}
             />
-            {errors.firstName && (
-              <Text color={"red"}>{errors.firstName.message}</Text>
-            )}
+
             <FieldInputController
               placeholder="Sobrenome*"
               name="lastName"
@@ -97,10 +95,8 @@ export default function SignupPage() {
               control={control}
               error={errors.lastName}
             />
-            {errors.lastName && (
-              <Text color={"red"}>{errors.lastName.message}</Text>
-            )}
           </Stack>
+
           <Stack
             spacing={"20px"}
             w="100%"
@@ -114,7 +110,7 @@ export default function SignupPage() {
               control={control}
               error={errors.dni}
             />
-            {errors.dni && <Text color={"red"}>{errors.dni.message}</Text>}
+
             <FieldInputController
               placeholder="E-mail*"
               name="email"
@@ -122,12 +118,13 @@ export default function SignupPage() {
               control={control}
               error={errors.email}
             />
-            {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
           </Stack>
+
           <Text color="#FFFF" fontSize="14px">
             Use entre 6 e 20 caracteres (deve conter pelo menos 1 caractere
             especial, uma letra maiúscula e um número)
           </Text>
+
           <Stack
             spacing={"20px"}
             w="100%"
@@ -147,10 +144,8 @@ export default function SignupPage() {
               control={control}
               error={errors.confirmPassword}
             />
-            {errors.confirmPassword && (
-              <Text color={"red"}>{errors.confirmPassword.message}</Text>
-            )}
           </Stack>
+
           <Stack
             spacing={"20px"}
             w="100%"
@@ -164,7 +159,7 @@ export default function SignupPage() {
               control={control}
               error={errors.phone}
             />
-            {errors.phone && <Text color={"red"}>{errors.phone.message}</Text>}
+
             <DefaultButton
               variant="primary"
               label="Criar conta"

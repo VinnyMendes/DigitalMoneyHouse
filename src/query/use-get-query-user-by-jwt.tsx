@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/libs/axios";
+import { useAxiosInstance } from "@/libs/axios";
 import { getSession } from "next-auth/react";
 import { useQuery } from "react-query";
 
@@ -14,6 +14,8 @@ export interface UserResponse {
 async function queryUserByJWT() {
   const session = await getSession();
   const user = session?.user;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const api = await useAxiosInstance();
 
   const { data } = await api.get<UserResponse>("/api/account", {
     headers: {

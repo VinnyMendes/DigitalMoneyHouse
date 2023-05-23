@@ -12,6 +12,7 @@ import { useCreateCard } from "@/query/use-mutate-ceate-card";
 import { useSession } from "next-auth/react";
 import { FieldInputMaskController } from "@/components/FieldComponentMask/FieldMaskController";
 import { ZodError } from "zod";
+import { useQueryUserByJWT } from "@/query/use-get-query-user-by-jwt";
 interface FormInput {
   cod: string;
   expiration_date: string;
@@ -45,19 +46,19 @@ export default function CreateCard() {
 
   const mutateCreateCard = useCreateCard();
 
-  const { data } = useSession();
-
+  const { data } = useQueryUserByJWT();
+  console.log(data);
   const submitForm = async (formData: cardInferSchemaType) => {
     try {
       const validateForm = await cardSchema.parseAsync(formData);
 
-      if (data?.user?.id) {
+      if (data?.id) {
         mutateCreateCard.mutateAsync({
           cod: validateForm.cod,
           expiration_date: validateForm.expiration_date,
           first_last_name: validateForm.first_last_name,
           number_id: validateForm.number_id,
-          account_id: data?.user.id,
+          account_id: data.id,
         });
       }
     } catch (error: any) {

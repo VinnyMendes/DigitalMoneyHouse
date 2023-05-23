@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/libs/axios";
+import { useAxiosInstance } from "@/libs/axios";
 import { useMutation } from "react-query";
 
 interface CreateCardResponse {
@@ -16,13 +16,20 @@ export type UserDataOutput = {
   expiration_date: string;
   first_last_name: string;
   number_id: number;
-  account_id: string;
+  account_id: number;
 };
 
 export async function CreateCard(userData: UserDataOutput) {
+  const api = await useAxiosInstance();
+
   await api.post<CreateCardResponse>(
     `/api/accounts/${userData.account_id}/cards`,
-    userData
+    {
+      cod: userData.cod,
+      expiration_date: userData.expiration_date,
+      first_last_name: userData.first_last_name,
+      number_id: userData.number_id,
+    }
   );
 }
 

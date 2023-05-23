@@ -22,6 +22,19 @@ export const cardSchema = z.object({
     .string()
     .nonempty("Campo obrigatário")
     .superRefine((value, ctx) => {
+      const [month, year] = value.split("/");
+
+      if (year) {
+        const formattedYear = Number(year);
+
+        if (formattedYear < 2000) {
+          ctx.addIssue({
+            code: "custom",
+            message: "Ano inválido",
+          });
+        }
+      }
+
       if (
         value.replaceAll(" ", "").replaceAll("_", "").replaceAll("/", "").trim()
           .length < 6

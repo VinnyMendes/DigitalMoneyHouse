@@ -1,5 +1,5 @@
 "use client";
-import { api } from "@/libs/axios";
+import { useAxiosInstance } from "@/libs/axios";
 import { getSession } from "next-auth/react";
 import { useQuery } from "react-query";
 
@@ -23,6 +23,8 @@ export interface UserData {
 async function QueryUserById() {
   const session = await getSession();
   const user = session?.user;
+
+  const api = await useAxiosInstance();
 
   const { data: userQuery } = await api.get<UserResponse>("/api/account", {
     headers: {
