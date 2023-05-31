@@ -15,6 +15,10 @@ interface Params {
 }
 
 async function getCards(params: Params): Promise<Card[]> {
+  if (!params.account_id) {
+    return [];
+  }
+
   const { data } = await api.get<Card[]>(
     `/api/accounts/${params.account_id}/cards`
   );
