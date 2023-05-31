@@ -5,6 +5,7 @@ import { theme } from "../styles/theme";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Open_Sans } from "next/font/google";
 import { CacheProvider } from "@chakra-ui/next-js";
+import { StepProvider } from "@/contexts/steps";
 
 interface Props {
   children: React.ReactNode;
@@ -12,24 +13,25 @@ interface Props {
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 
+export const queryClient = new QueryClient();
 const Provider = ({ children }: Props) => {
-  const queryClient = new QueryClient();
-
   return (
-    <CacheProvider>
-      <QueryClientProvider client={queryClient}>
-        <style jsx global>
-          {`
-            :root {
-              --font-rubik: ${openSans.style.fontFamily};
-            }
-          `}
-        </style>
-        <ChakraProvider theme={theme}>
-          <SessionProvider>{children}</SessionProvider>
-        </ChakraProvider>
-      </QueryClientProvider>
-    </CacheProvider>
+    <StepProvider>
+      <CacheProvider>
+        <QueryClientProvider client={queryClient}>
+          <style jsx global>
+            {`
+              :root {
+                --font-rubik: ${openSans.style.fontFamily};
+              }
+            `}
+          </style>
+          <ChakraProvider theme={theme}>
+            <SessionProvider>{children}</SessionProvider>
+          </ChakraProvider>
+        </QueryClientProvider>
+      </CacheProvider>
+    </StepProvider>
   );
 };
 

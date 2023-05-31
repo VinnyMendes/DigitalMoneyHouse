@@ -1,57 +1,26 @@
-"use client";
 import React from "react";
-import { FormControl, FormHelperText, FormLabel, InputProps, useColorMode } from "@chakra-ui/react";
-import { Control, Controller, FieldError } from "react-hook-form";
-import FieldInput from "../FieldInput/index";
+import { Input, InputProps } from "@chakra-ui/react";
 import ReactInputMask, { Props } from "react-input-mask";
 
-type FieldInputRegisterProps = {
-  name: string;
-  label?: string;
-  error?: FieldError;
-  helperText?: string | React.ReactNode;
-  inputProps?: InputProps;
-  control: Control<any>;
-  defaultValue?: any;
-} & InputProps &
-  Props;
+export type FieldInputMaskProps = InputProps & Props;
 
-export const FieldInputMaskController: React.FC<FieldInputRegisterProps> = ({
-  name,
-  label,
-  error,
-  helperText,
-  defaultValue,
-  control,
-  ...inputProps
-}) => {
-  const { colorMode } = useColorMode();
-
+const FieldInput: React.ForwardRefRenderFunction<
+  HTMLInputElement,
+  FieldInputMaskProps
+> = (props, ref) => {
   return (
-    <FormControl isInvalid={!!error}>
-      {!!label && (
-        <FormLabel
-          fontStyle="normal"
-          fontWeight="600"
-          fontSize="16px"
-          lineHeight="20px"
-          textAlign="left"
-          letterSpacing="0.04em"
-          color={colorMode === "dark" ? "#fff" : "#000"}
-          htmlFor={name}
-        >
-          {label}
-        </FormLabel>
-      )}
-
-      <Controller
-        name={name}
-        control={control}
-        defaultValue={defaultValue}
-        render={({ field }) => <FieldInput as={ReactInputMask} border={error && "1px solid #EE3838"} id={name} {...inputProps} {...field} />}
-      />
-
-      {helperText && !error && <FormHelperText>{helperText}</FormHelperText>}
-    </FormControl>
+    <Input
+      as={ReactInputMask}
+      background={"#E1F5FE"}
+      border="0px"
+      borderRadius="10px"
+      autoComplete="off"
+      h="64px"
+      w="100%"
+      ref={ref}
+      {...props}
+    />
   );
 };
+
+export const FieldInputMask = React.forwardRef(FieldInput);

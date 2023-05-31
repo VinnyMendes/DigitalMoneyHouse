@@ -1,4 +1,3 @@
-import { useQueryUserById } from "@/query/user-get-user-data";
 import {
   Drawer,
   DrawerBody,
@@ -13,7 +12,7 @@ import {
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import { Link } from "@chakra-ui/next-js";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 interface MobileDrawerProps {
   isOpen: boolean;
@@ -29,7 +28,7 @@ interface Options {
 export const MobileDrawer = (props: MobileDrawerProps) => {
   const { isOpen, onClose } = props;
 
-  const { data } = useQueryUserById();
+  const { data: session } = useSession();
 
   const sideBarItems: Options[] = useMemo(() => {
     return [
@@ -47,7 +46,7 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
       },
       {
         label: "Carregar valor",
-        path: "/",
+        path: "/dashboard/recharge-value",
       },
       {
         label: "Pagar serviços",
@@ -55,7 +54,7 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
       },
       {
         label: "Cartões",
-        path: "/",
+        path: "/dashboard/create-card",
       },
       {
         label: "Encerrar sessão",
@@ -89,7 +88,7 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
               fontSize="16px"
               lineHeight="22px"
               color="#C1FD35"
-            >{`${data?.firstname} ${data?.lastname}`}</Text>
+            >{`${session?.user?.user_data?.firstname} ${session?.user?.user_data?.lastname}`}</Text>
           </Box>
         </DrawerHeader>
 

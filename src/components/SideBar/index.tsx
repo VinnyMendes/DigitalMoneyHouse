@@ -26,11 +26,11 @@ export const SideBar = ({}: SideBarProps) => {
       },
       {
         label: "Seu perfil",
-        path: "/",
+        path: "/dashboard/profile",
       },
       {
         label: "Carregar valor",
-        path: "/",
+        path: "/dashboard/recharge-value",
       },
       {
         label: "Pagar serviços",
@@ -38,7 +38,7 @@ export const SideBar = ({}: SideBarProps) => {
       },
       {
         label: "Cartões",
-        path: "/",
+        path: "/dashboard/cards",
       },
       {
         label: "Encerrar sessão",

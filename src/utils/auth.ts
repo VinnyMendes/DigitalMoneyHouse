@@ -7,6 +7,22 @@ import {
   type DefaultSession,
 } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+export interface UserResponse {
+  alias: string;
+  available_amount: number;
+  cvu: string;
+  id: number;
+  user_id: number;
+}
+
+export interface UserData {
+  dni: number;
+  email: string;
+  firstname: string;
+  id: number;
+  lastname: string;
+  phone: string;
+}
 
 declare module "next-auth" {
   interface Session extends DefaultSession {
@@ -14,6 +30,8 @@ declare module "next-auth" {
       id: string;
       email: string;
       token: string;
+      user_data: UserData;
+      user_info: UserResponse;
     };
   }
 }
@@ -43,11 +61,33 @@ export const authOptions: NextAuthOptions = {
 
           const { token } = data;
 
-          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          const { data: userResponse } = await api.get<UserResponse>(
+            "/api/account",
+            {
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          );
+
+          const { data: userAPI } = await api.get<UserData>(
+            `/api/users/${userResponse?.user_id}`,
+            {
+              headers: {
+                Authorization: `${token}`,
+              },
+            }
+          );
 
           const user = {
             id: randomUUID(),
             email: credentials.email,
+            user_data: {
+              ...userAPI,
+            },
+            user_info: {
+              ...userResponse,
+            },
             token,
           };
 
@@ -78,6 +118,8 @@ export const authOptions: NextAuthOptions = {
             id: u.id,
             token: u.token,
             email: u.email,
+            user_data: { ...u.user_data },
+            user_info: { ...u.user_info },
           },
         };
       }

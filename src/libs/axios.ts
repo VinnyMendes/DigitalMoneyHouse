@@ -1,5 +1,5 @@
 import axios, { AxiosError } from "axios";
-import { signOut } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 
 interface ErrorAPI {
   error: string;
@@ -7,6 +7,10 @@ interface ErrorAPI {
 
 export const api = axios.create({
   baseURL: process.env.NEXT_API_URL || "https://digitalmoney.ctd.academy",
+});
+
+getSession().then((session) => {
+  api.defaults.headers.common["Authorization"] = `${session?.user?.token}`;
 });
 
 api.interceptors.response.use(

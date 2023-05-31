@@ -6,7 +6,10 @@ const passwordConstraint = z
   .max(20, { message: "Máximo de 20 caracteres" })
   .nonempty("Campo obrigatário");
 
-const nameConstraint = z.string().max(20, { message: "Máximo de 20 caracteres" }).nonempty("O campo nome é obrigatório");
+const nameConstraint = z
+  .string()
+  .max(20, { message: "Máximo de 20 caracteres" })
+  .nonempty("O campo nome é obrigatório");
 
 export const signupSchema = z
   .object({
@@ -16,13 +19,17 @@ export const signupSchema = z
       .string()
       .nonempty()
       .transform((val) => val.replaceAll(".", "").replace("-", "")),
-    email: z.string().email("E-mail inválido").nonempty("Campo obrigatório").toLowerCase(),
+    email: z
+      .string()
+      .email("E-mail inválido")
+      .nonempty("Campo obrigatório")
+      .toLowerCase(),
     password: passwordConstraint,
     confirmPassword: passwordConstraint,
     phone: z
       .string()
-      .min(8)
-      .max(16)
+      .min(8, "Mínimo de oito caracteres")
+      .max(16, "Máximo de dezesseis caracteres")
       .nonempty("Campo obrigatório")
       .refine((val) => val.replaceAll("_", "")),
   })

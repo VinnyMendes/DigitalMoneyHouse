@@ -1,11 +1,20 @@
-import { useQueryUserById } from "@/query/user-get-user-data";
-import { Badge, Flex, FlexProps, HStack, Text, useBreakpointValue, useDisclosure, Box } from "@chakra-ui/react";
+import {
+  Badge,
+  Flex,
+  FlexProps,
+  HStack,
+  Text,
+  useBreakpointValue,
+  useDisclosure,
+  Box,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import { FC, useMemo } from "react";
 import MobileDrawer from "../MobileDrawer";
 import { AiOutlineMenu } from "react-icons/ai";
 import { DefaultButton } from "@/components/Button";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export type Variants = "primary" | "secondary";
 
@@ -20,7 +29,7 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
 
   const { push } = useRouter();
 
-  const { data: user } = useQueryUserById();
+  const { data: session } = useSession();
 
   const stylesByVariant = useMemo((): Record<Variants, HeaderProps> => {
     return {
@@ -39,25 +48,60 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
   }, []);
 
   const { isOpen, onClose, onToggle } = useDisclosure();
-  const isSm = useBreakpointValue({ base: true, sm: false });
+  const isMd = useBreakpointValue({ base: true, md: false });
 
   return (
-    <Flex justifyContent={"space-between"} alignItems={"center"} {...props} {...stylesByVariant[variant]}>
-      {variant === "primary" && <Image alt="logo" src="/logo.svg" width={86} height={33} style={{ cursor: "pointer" }} onClick={() => push("/")} />}
+    <Flex
+      justifyContent={"space-between"}
+      alignItems={"center"}
+      {...props}
+      {...stylesByVariant[variant]}
+    >
+      {variant === "primary" && (
+        <Image
+          alt="logo"
+          src="/logo.svg"
+          width={86}
+          height={33}
+          style={{ cursor: "pointer" }}
+          onClick={() => push("/")}
+        />
+      )}
       {variant === "secondary" && (
-        <Image alt="logo" src="/logo-alt.svg" width={86} height={33} style={{ cursor: "pointer" }} onClick={() => push("/")} />
+        <Image
+          alt="logo"
+          src="/logo-alt.svg"
+          width={86}
+          height={33}
+          style={{ cursor: "pointer" }}
+          onClick={() => push("/")}
+        />
       )}
 
       {buttonOn && (
         <>
-          <Box display={"flex"} alignItems={"center"} w={{ base: "60%", md: "40%", lg: "20%" }} h={"40px"}>
-            <DefaultButton variant="home1" label="Entrar" marginRight={"8%"} onClick={() => push("/login")} />
-            <DefaultButton variant="home2" label="Criar conta" onClick={() => push("/signup")} />
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            w={{ base: "60%", md: "40%", lg: "20%" }}
+            h={"40px"}
+          >
+            <DefaultButton
+              variant="home1"
+              label="Entrar"
+              marginRight={"8%"}
+              onClick={() => push("/login")}
+            />
+            <DefaultButton
+              variant="home2"
+              label="Criar conta"
+              onClick={() => push("/signup")}
+            />
           </Box>
         </>
       )}
 
-      {shouldShowUser && user && (
+      {shouldShowUser && session?.user?.user_data && (
         <>
           <HStack spacing={"1rem"}>
             <Badge
@@ -72,21 +116,21 @@ export const Header: FC<HeaderProps> = (props: HeaderProps) => {
               fontSize={"20px"}
               color={"#201F22"}
               fontWeight={700}
-            >{`${user.firstname[0].toUpperCase()}${user.lastname[0].toUpperCase()}`}</Badge>
+            >{`${session?.user?.user_data?.firstname[0].toUpperCase()}${session?.user?.user_data?.lastname[0].toUpperCase()}`}</Badge>
 
             <Text
               display={{ base: "none", sm: "block" }}
               fontWeight={700}
               fontSize={"16px"}
               color={"#FFFF"}
-            >{`Olá, ${user.firstname} ${user.lastname}`}</Text>
+            >{`Olá, ${session?.user?.user_data?.firstname} ${session?.user?.user_data?.lastname}`}</Text>
 
             <AiOutlineMenu
               onClick={onToggle}
               color={"#FFFF"}
               size={30}
               cursor={"pointer"}
-              style={isSm ? { display: "block" } : { display: "none" }}
+              style={isMd ? { display: "block" } : { display: "none" }}
             />
           </HStack>
         </>

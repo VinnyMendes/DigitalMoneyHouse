@@ -15,12 +15,22 @@ import {
 import { Link } from "@chakra-ui/next-js";
 import FieldInput from "@/components/FieldInput";
 import { AiOutlineSearch } from "react-icons/ai";
+import { RecentActivity } from "./components/RecentActivity";
 
 export default function Home() {
   return (
     <Template shouldShowUser variant="secondary">
       <TemplateGrid>
-        <VStack spacing={"20px"} w="100%" align={"flex-start"}>
+        <VStack
+          p={{
+            base: "20px 20px 42px 20px",
+            sm: "68px 52px 85px 50px",
+            lg: "40px 79px 42px 79px",
+          }}
+          spacing={"20px"}
+          w="100%"
+          align={"flex-start"}
+        >
           <Flex
             background="#201F22"
             p={{
@@ -40,7 +50,7 @@ export default function Home() {
               fontSize={{ base: "12px", sm: "16px" }}
             >
               <Link
-                href={"/"}
+                href={"/dashboard/cards"}
                 color="#FFFF"
                 style={{ textDecoration: "underline", color: "#FFFF" }}
               >
@@ -115,6 +125,7 @@ export default function Home() {
               pl="35px"
             />
           </InputGroup>
+          <RecentActivity />
         </VStack>
       </TemplateGrid>
     </Template>
