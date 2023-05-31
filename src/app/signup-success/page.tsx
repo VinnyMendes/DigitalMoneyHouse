@@ -4,7 +4,7 @@ import { Template } from "@/components/Template";
 import { Image } from "@chakra-ui/next-js";
 import { Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import checkmark from "./checkmark.png";
+import checkmark from "/checkmark.png";
 
 export default function SignupSuccessPage() {
   const { push } = useRouter();
