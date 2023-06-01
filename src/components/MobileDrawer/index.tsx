@@ -38,7 +38,7 @@ export const MobileDrawer = (props: MobileDrawerProps) => {
       },
       {
         label: "Atividade",
-        path: "/",
+        path: "/dashboard/activity",
       },
       {
         label: "Seu perfil",

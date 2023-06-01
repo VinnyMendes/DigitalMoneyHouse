@@ -22,7 +22,7 @@ export const SideBar = ({}: SideBarProps) => {
       },
       {
         label: "Atividade",
-        path: "/",
+        path: "/dashboard/activity",
       },
       {
         label: "Seu perfil",

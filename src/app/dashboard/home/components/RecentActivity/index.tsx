@@ -1,16 +1,21 @@
 "use client";
 import { Divider, Flex, Text } from "@chakra-ui/react";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { ActivityInfo } from "../ActivityInfo";
-import { useGetActivity } from "@/query/use-get-activity";
+import { Activity } from "@/query/use-get-activity";
 
-export const RecentActivity = () => {
-  const { data: session } = useSession();
-  const { data } = useGetActivity({
-    account_id: session?.user?.user_info?.id ?? 0,
-  });
+interface RecentActivityProps {
+  activity: Activity[] | undefined;
+  hasPagination?: React.ReactNode;
+  seeActivities?: boolean;
+}
+
+export const RecentActivity = ({
+  activity,
+  hasPagination,
+  seeActivities,
+}: RecentActivityProps) => {
   const router = useRouter();
 
   return (
@@ -37,28 +42,32 @@ export const RecentActivity = () => {
 
       <Divider borderBottomColor={"blackAlpha.600"} />
 
-      {data?.map((activity, index) => {
+      {activity?.map((activity, index) => {
         return <ActivityInfo key={activity.id} activity={activity} />;
       })}
 
-      <Flex
-        justify={"space-between"}
-        align={"center"}
-        onClick={() => router.push("/dashboard/activity")}
-        cursor={"pointer"}
-        _hover={{ textDecoration: "underline" }}
-      >
-        <Text
-          color="#201F22"
-          fontWeight="700"
-          fontSize="16px"
-          lineHeight="22px"
-          py={"2rem"}
+      {hasPagination && hasPagination}
+
+      {seeActivities && (
+        <Flex
+          justify={"space-between"}
+          align={"center"}
+          onClick={() => router.push("/dashboard/activity")}
+          cursor={"pointer"}
+          _hover={{ textDecoration: "underline" }}
+          pt={"2rem"}
         >
-          Ver toda sua atividade
-        </Text>
-        <AiOutlineArrowRight size={"1.6rem"} color="#3A393E" />
-      </Flex>
+          <Text
+            color="#201F22"
+            fontWeight="700"
+            fontSize="16px"
+            lineHeight="22px"
+          >
+            Ver toda sua atividade
+          </Text>
+          <AiOutlineArrowRight size={"1.6rem"} color="#3A393E" />
+        </Flex>
+      )}
     </Flex>
   );
 };

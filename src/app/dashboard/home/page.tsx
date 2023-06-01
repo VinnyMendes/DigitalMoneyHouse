@@ -16,8 +16,30 @@ import { Link } from "@chakra-ui/next-js";
 import FieldInput from "@/components/FieldInput";
 import { AiOutlineSearch } from "react-icons/ai";
 import { RecentActivity } from "./components/RecentActivity";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useGetActivity } from "@/query/use-get-activity";
+import { useMemo, useState } from "react";
+import { filter, orderBy } from "lodash";
+import { useGetAccount } from "@/query/use-get-account";
 
 export default function Home() {
+  const { push } = useRouter();
+
+  const { data: session } = useSession();
+
+  const { data } = useGetActivity({
+    account_id: session?.user?.user_info?.id ?? 0,
+  });
+
+  const [search, setSearch] = useState("");
+
+  const { data: accountData } = useGetAccount();
+
+  const ordedData = useMemo(() => {
+    return orderBy(data, "dated", "desc");
+  }, [data]);
+
   return (
     <Template shouldShowUser variant="secondary">
       <TemplateGrid>
@@ -30,6 +52,9 @@ export default function Home() {
           spacing={"20px"}
           w="100%"
           align={"flex-start"}
+          maxH={"calc(100vh - 128px)"}
+          h="100%"
+          overflow={"auto"}
         >
           <Flex
             background="#201F22"
@@ -86,7 +111,7 @@ export default function Home() {
               color={"#FFFF"}
               w="fit-content"
             >
-              {"$ 6.97"}
+              {accountData && `R$ ${accountData?.available_amount}`}
             </Box>
           </Flex>
 
@@ -99,6 +124,7 @@ export default function Home() {
               h={{ base: "67px", md: "85px", lg: "106px" }}
               label={"Carregar valor"}
               fontSize={{ base: "16px", sm: "24px" }}
+              onClick={() => push("/dashboard/recharge-value")}
             />
 
             <DefaultButton
@@ -112,6 +138,7 @@ export default function Home() {
             <InputLeftElement h="full">
               <AiOutlineSearch />
             </InputLeftElement>
+
             <FieldInput
               background={"#FFFF !important"}
               border="1px solid #D2FFEC"
@@ -123,9 +150,21 @@ export default function Home() {
               }}
               fontWeight={"400"}
               pl="35px"
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
           </InputGroup>
-          <RecentActivity />
+
+          <RecentActivity
+            seeActivities
+            activity={
+              search
+                ? filter(ordedData, (activity) =>
+                    activity.description.includes(search)
+                  )
+                : ordedData
+            }
+          />
         </VStack>
       </TemplateGrid>
     </Template>

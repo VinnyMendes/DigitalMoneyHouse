@@ -4,6 +4,7 @@ import { Template } from "@/components/Template";
 import { Image } from "@chakra-ui/next-js";
 import { Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import checkmark from "./checkmark.png";
 
 export default function SignupSuccessPage() {
   const { push } = useRouter();
@@ -24,7 +25,7 @@ export default function SignupSuccessPage() {
             Cadastro realizado
           </Heading>
           <Box>
-            <Image src="/checkmark.png" alt="checkmark" width={100} height={100} />
+            <Image src={checkmark} alt="checkmark" width={100} height={100} />
           </Box>
           <Text align="center" color="#FFFF">
             Enviamos uma mensagem de confirmação para seu e-mail, por favor

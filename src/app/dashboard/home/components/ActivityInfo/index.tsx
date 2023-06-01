@@ -2,17 +2,16 @@
 import { Divider, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { BsCircleFill } from "react-icons/bs";
 import { Activity } from "@/query/use-get-activity";
+import { format, isThisWeek, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 interface ActivityInfoProps {
   activity: Activity;
 }
 
-const transferTypes = {
-  transfer: "transferiu",
-  deposit: "adicionou valor",
-};
-
 export const ActivityInfo = (props: ActivityInfoProps) => {
+  const { activity } = props;
+
   return (
     <>
       <HStack
@@ -24,19 +23,18 @@ export const ActivityInfo = (props: ActivityInfoProps) => {
       >
         <Flex gap={4} align="center" justifyContent="center" py={"1.5rem"}>
           <BsCircleFill fontSize={"2em"} color="#C1FD35" />
-          <Text>
-            Você{" "}
-            {props.activity.origin === props.activity.destination
-              ? transferTypes["deposit"]
-              : props.activity.origin === String(props.activity.account_id)
-              ? `transferiu para ${props.activity.destination}`
-              : `recebeu uma transferência de ${props.activity.origin}`}
-          </Text>
+          <Text>{activity.description}</Text>
         </Flex>
 
         <VStack>
-          <Text>R${props.activity.amount}</Text>
-          <Text>{props.activity.dated}</Text>
+          <Text>R${activity.amount}</Text>
+          <Text color={"#A6A5A7"} fontSize={"12px"}>
+            {isThisWeek(parseISO(activity.dated))
+              ? format(parseISO(activity.dated), "EEEE", { locale: ptBR })
+              : format(parseISO(activity.dated), "dd/MM/yyyy", {
+                  locale: ptBR,
+                })}
+          </Text>
         </VStack>
       </HStack>
       <Divider borderBottomColor={"blackAlpha.600"} />

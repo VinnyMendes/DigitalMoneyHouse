@@ -1,3 +1,4 @@
+import { getMonth, getYear, monthsInYear } from "date-fns";
 import * as z from "zod";
 
 export const cardSchema = z.object({
@@ -24,6 +25,17 @@ export const cardSchema = z.object({
     .superRefine((value, ctx) => {
       const [month, year] = value.split("/");
 
+      if (month) {
+        const formattedMonth = Number(month);
+
+        if (formattedMonth > 12) {
+          ctx.addIssue({
+            code: "custom",
+            message: "O mês deve ser até dezembro",
+          });
+        }
+      }
+
       if (year) {
         const formattedYear = Number(year);
 
@@ -31,6 +43,24 @@ export const cardSchema = z.object({
           ctx.addIssue({
             code: "custom",
             message: "Ano deve começar com 20XX",
+          });
+        }
+      }
+
+      if (month && year) {
+        const formattedMonth = Number(month);
+        const formattedYear = Number(year);
+
+        const currentMonth = getMonth(new Date());
+        const currentYear = getYear(new Date());
+
+        if (
+          formattedYear < currentYear ||
+          (formattedYear === currentYear && formattedMonth < currentMonth)
+        ) {
+          ctx.addIssue({
+            code: "custom",
+            message: "A data de expiração deve ser posterior a data atual",
           });
         }
       }

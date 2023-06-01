@@ -17,7 +17,11 @@ interface Params {
 }
 
 async function getActivity(params: Params): Promise<Activity[]> {
-  const { data } = await api.get<Activity[]>(`/api/accounts/${params.account_id}/activity`);
+  if (!params.account_id) return [];
+
+  const { data } = await api.get<Activity[]>(
+    `/api/accounts/${params.account_id}/activity`
+  );
 
   return data;
 }
